@@ -5,6 +5,7 @@ import br.eng.jerodac.movieguide.vo.MovieListResponse;
 import br.eng.jerodac.movieguide.vo.MovieResponse;
 import br.eng.jerodac.movieguide.vo.ReviewResponse;
 import br.eng.jerodac.movieguide.vo.VideoResponse;
+import io.reactivex.Observable;
 import retrofit2.Callback;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -20,18 +21,16 @@ public interface API {
      * Top 20 movies sorted by specified criteria
      * @param sortBy
      * @param apiKey
-     * @param cb
      */
     @GET("/discover/movie")
-    void discoverMovies(@Query("sort_by") String sortBy, @Query("api_key") String apiKey, Callback<MovieListResponse> cb);
+    Observable<MovieListResponse> discoverMovies(@Query("api_key") String apiKey, @Query("sort_by") String sortBy);
 
     /**
      * Top 20 sorted by popularity
      * @param apiKey
-     * @param cb
      */
-    @GET("/movie/popular")
-    void fetchPopularMovies(@Query("api_key") String apiKey, Callback<MovieListResponse> cb);
+    @GET("/3/movie/popular")
+    Observable<MovieListResponse> fetchPopularMovies(@Query("api_key") String apiKey);
 
     /**
      * Next page of 20 sorted by popularity

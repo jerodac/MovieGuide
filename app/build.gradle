@@ -15,6 +15,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"http://api.themoviedb.org/3/\""
+            buildConfigField "String", "API_KEY", "\"29c31311d307b97ab2a04b4dcdab150d\""
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Jean Rodrigo Dalbon Cunha on 06/10/2017.
  */
-public class MovieListResponse {
+public class MovieListResponse extends RestResponse {
 
     @SerializedName("page")
     private int page;

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Jean Rodrigo Dalbon Cunha on 06/10/2017.
  */
-public class VideoResponse {
+public class VideoResponse extends RestResponse {
 
     @SerializedName("id")
     private int id;

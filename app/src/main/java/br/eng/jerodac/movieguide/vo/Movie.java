@@ -14,7 +14,7 @@ import br.eng.jerodac.movieguide.database.MovieContract;
 /**
  * Created by Jean Rodrigo Dalbon Cunha on 06/10/2017.
  */
-public class Movie implements Parcelable {
+public class Movie extends RestResponse implements Parcelable {
 
     @SerializedName("id")
     private int id;

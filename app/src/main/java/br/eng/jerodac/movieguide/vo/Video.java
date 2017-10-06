@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Jean Rodrigo Dalbon Cunha on 06/10/2017.
  */
-public class Video {
+public class Video extends RestResponse {
 
     @SerializedName("id")
     private String id;
