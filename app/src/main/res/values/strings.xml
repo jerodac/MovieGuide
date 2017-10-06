@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">MovieGuide</string>
+    <string name="app_name">Movie Database</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="sort_popularity">popularity</string>
+    <string name="sort_rating">rating</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="key_sort_method_pref">sort.method.pref</string>
+    <string name="key_sort_method_current">sort.method.current</string>
+    <string name="message_no_trailer">"No trailer to share for "</string>
+    <string name="title_share_action">Share trailer</string>
+    <string name="share_action_subject_prefix">"Check out this trailer for "</string>
+    <string name="transition_poster">transition_movie_poster</string>
+    <string name="tmdb_api_key">29c31311d307b97ab2a04b4dcdab150d</string>
 </resources>

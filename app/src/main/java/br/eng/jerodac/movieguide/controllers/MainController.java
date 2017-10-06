@@ -41,4 +41,21 @@ public class MainController {
                 });
     }
 
+    public void requestMostPopularMovies(int page, @Nullable final MovieListListener listener){
+        RestClient.fetchPopularMovies(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new FactoryRequester<MovieListResponse>() {
+                    @Override
+                    public void onSuccess(MovieListResponse movieListResponse) {
+                        listener.success(movieListResponse);
+                    }
+
+                    @Override
+                    public void onError(RestError restError) {
+                        listener.error(restError);
+                    }
+                });
+    }
+
 }

@@ -17,4 +17,13 @@ public class RestClient {
     public static Observable<MovieListResponse> fetchPopularMovies() {
         return Configuration.getApi().fetchPopularMovies(KEY);
     }
+
+    /**
+     * Get Top 20 sorted by popularity
+     * Pagination
+     */
+    public static Observable<MovieListResponse> fetchPopularMovies(int page) {
+        return Configuration.getApi().fetchPopularMovies(KEY, page);
+    }
+
 }

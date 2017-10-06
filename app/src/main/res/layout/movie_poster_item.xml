@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="200dp"
+    android:maxHeight="400dp"
+    >
+
+    <ImageView
+        tools:src="@drawable/ic_star_border_black_24dp"
+        android:id="@+id/movie_poster"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:transitionName="@string/transition_poster"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/movie_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#88000000"
+        android:textColor="#f1f1f1"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:minLines="2"
+        android:maxLines="2"
+        android:layout_gravity="bottom"/>
+
+</FrameLayout>

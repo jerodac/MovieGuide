@@ -31,15 +31,14 @@ public interface API {
      */
     @GET("/3/movie/popular")
     Observable<MovieListResponse> fetchPopularMovies(@Query("api_key") String apiKey);
-
+    
     /**
      * Next page of 20 sorted by popularity
      * @param apiKey
      * @param page
-     * @param cb
      */
-    @GET("/movie/popular")
-    void fetchPopularMovies(@Query("api_key") String apiKey, @Query("page") int page, Callback<MovieListResponse> cb);
+    @GET("/3/movie/popular")
+    Observable<MovieListResponse> fetchPopularMovies(@Query("api_key") String apiKey, @Query("page") int page);
 
     /**
      * Top 20 sorted by rating
