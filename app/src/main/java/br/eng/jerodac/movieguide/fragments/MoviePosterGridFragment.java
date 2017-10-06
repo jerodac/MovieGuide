@@ -82,6 +82,25 @@ public class MoviePosterGridFragment extends BaseFragment
 
     @Override
     protected void initComponents(View rootView) {
+        mAdapter = new MovieGridRecyclerAdapter();
+        mScrollListener = new RecyclerScrollListener();
+        
+        //mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.setData(movies);
+//        mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+//        mRecyclerView.addOnScrollListener(mScrollListener);
+//
+//        // request movies
+//        if (mAdapter.getItemCount() == 0) {
+//            if (mSortMethod == SortOption.POPULARITY) {
+//                getController().requestMostPopularMovies(this);
+//            } else {
+//                //todo
+//            }
+//        }
+//
+//        // check for network connection
+//        checkNetwork();
 
     }
 
@@ -91,12 +110,17 @@ public class MoviePosterGridFragment extends BaseFragment
     }
 
     @Override
+    protected int getLayoutResource() {
+        return R.layout.movie_poster_grid;
+    }
+
+    ArrayList<Movie> movies = new ArrayList<>();
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.movie_poster_grid, null);
-        ButterKnife.bind(this, view);
-
-        ArrayList<Movie> movies = new ArrayList<>();
+        //View view = inflater.inflate(R.layout.movie_poster_grid, null);
+        //ButterKnife.bind(this, view);
 
         // restore movie list from instance state on orientation change
         if (savedInstanceState != null) {
@@ -106,26 +130,7 @@ public class MoviePosterGridFragment extends BaseFragment
             mSortMethod = AppPreferences.getPreferredSortMethod(getActivity());
         }
 
-        mAdapter = new MovieGridRecyclerAdapter();
-        mScrollListener = new RecyclerScrollListener();
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setData(movies);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
-        mRecyclerView.addOnScrollListener(mScrollListener);
-
-        // request movies
-        if (mAdapter.getItemCount() == 0) {
-            if (mSortMethod == SortOption.POPULARITY) {
-                getController().requestMostPopularMovies(this);
-            } else {
-                //todo
-            }
-        }
-
-        // check for network connection
-        checkNetwork();
-
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
@@ -208,11 +213,6 @@ public class MoviePosterGridFragment extends BaseFragment
     @Override
     public void success(MovieResponse response) {
         mAdapter.appendData(response.getMovie());
-    }
-
-    @Override
-    public void error(ApiError error) {
-
     }
 
     @Override

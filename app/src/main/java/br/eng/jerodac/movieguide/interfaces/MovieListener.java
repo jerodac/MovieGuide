@@ -1,6 +1,6 @@
 package br.eng.jerodac.movieguide.interfaces;
 
-import br.eng.jerodac.movieguide.business.ApiError;
+import br.eng.jerodac.movieguide.business.RestError;
 import br.eng.jerodac.movieguide.vo.MovieResponse;
 
 /**
@@ -8,5 +8,5 @@ import br.eng.jerodac.movieguide.vo.MovieResponse;
  */
 public interface MovieListener {
     public void success(MovieResponse response);
-    public void error(ApiError error);
+    public void error(RestError restError);
 }

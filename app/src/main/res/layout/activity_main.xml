@@ -8,7 +8,7 @@
     <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
     <fragment android:id="@+id/fragment_grid"
-              android:name="com.honu.tmdb.MoviePosterGridFragment"
+              android:name="br.eng.jerodac.movieguide.fragments.MoviePosterGridFragment"
               xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
