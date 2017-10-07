@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              xmlns:app="http://schemas.android.com/apk/res-auto"
-             tools:context="com.honu.tmdb.MovieDetailFragment">
+             tools:context="br.eng.jerodac.movieguide.fragments.MovieDetailFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"

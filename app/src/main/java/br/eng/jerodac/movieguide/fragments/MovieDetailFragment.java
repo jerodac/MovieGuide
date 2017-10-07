@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
@@ -25,13 +24,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.eng.jerodac.movieguide.R;
-import br.eng.jerodac.movieguide.business.ApiError;
+import br.eng.jerodac.movieguide.business.AppLog;
 import br.eng.jerodac.movieguide.business.MovieFavorites;
 import br.eng.jerodac.movieguide.business.RestError;
 import br.eng.jerodac.movieguide.database.MovieContract;
@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MovieDetailFragment extends Fragment
+public class MovieDetailFragment extends BaseFragment
         implements ReviewListener, VideoListener {
 
     static final String TAG = MovieDetailFragment.class.getSimpleName();
@@ -56,14 +56,19 @@ public class MovieDetailFragment extends Fragment
 
     public Movie mMovie;
 
-    MovieDetailsAdapter mAdapter;
+    private MovieDetailsAdapter mAdapter;
 
-    ShareActionProvider mShareActionProvider;
+    private ShareActionProvider mShareActionProvider;
 
-    MenuItem mShareMenuItem;
+    private MenuItem mShareMenuItem;
 
     @BindView(R.id.recycler)
-    RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_movie_detail;
+    }
 
     public static MovieDetailFragment newInstance(Movie movie) {
         MovieDetailFragment fragment = new MovieDetailFragment();
@@ -71,6 +76,26 @@ public class MovieDetailFragment extends Fragment
         args.putParcelable(KEY_MOVIE, movie);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    protected void initComponents(View rootView) {
+        // Create adapter
+        mAdapter = new MovieDetailsAdapter();
+
+        // Request reviews and trailers
+        if (mMovie != null) {
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+            getController().requestMovieReviews(mMovie.getId(), this);
+            getController().requestMovieVideos(mMovie.getId(), this);
+            queryGenres();
+        }
+
+        setupTransition();
+
+        // show options menu
+        setHasOptionsMenu(true);
     }
 
     public MovieDetailFragment() {
@@ -85,32 +110,6 @@ public class MovieDetailFragment extends Fragment
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_detail, null);
-        ButterKnife.bind(this, view);
-
-        // Create adapter
-        mAdapter = new MovieDetailsAdapter();
-
-        // Request reviews and trailers
-        if (mMovie != null) {
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-            //todo calling controller
-            //getController().requestMovieReviews(mMovie.getId(), this);
-            //getController().requestMovieVideos(mMovie.getId(), this);
-            queryGenres();
-        }
-
-        setupTransition();
-
-        // show options menu
-        setHasOptionsMenu(true);
-
-        return view;
-    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupTransition() {
         //setEnterTransition(new Explode());
@@ -119,7 +118,6 @@ public class MovieDetailFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG, "onCreateOptionsMenu");
         getActivity().getMenuInflater().inflate(R.menu.menu_movie_detail_frag, menu);
         mShareMenuItem = menu.findItem(R.id.menu_item_share);
         mShareMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -134,20 +132,20 @@ public class MovieDetailFragment extends Fragment
     @Override
     public void success(ReviewResponse response) {
         List<Review> reviews = response.getReviews();
-        Log.d(TAG, "Number of reviews: " + reviews.size());
+        AppLog.v(AppLog.TAG, "Reviews: "+ reviews.size());
         mAdapter.setReviews(reviews);
     }
 
     @Override
     public void success(VideoResponse response) {
         List<Video> trailers = response.getYoutubeTrailers();
-        Log.d(TAG, "Number of YouTube trailers: " + trailers.size());
+        AppLog.v(AppLog.TAG, "Trailers: " + trailers.size());
         mAdapter.setTrailers(trailers);
     }
 
     @Override
     public void error(RestError error) {
-        Log.e(TAG, "Error retrieving data from API: " + error.getException().getMessage());
+        AppLog.e(AppLog.TAG, "Error retrieving data from API: " + error.getException().getMessage());
     }
 
     private void shareVideoUrl() {
@@ -384,6 +382,11 @@ public class MovieDetailFragment extends Fragment
                 mAdapter.updateGenres();
             }
         }
+
+    }
+
+    @Override
+    protected void settings(View rootView) {
 
     }
 }

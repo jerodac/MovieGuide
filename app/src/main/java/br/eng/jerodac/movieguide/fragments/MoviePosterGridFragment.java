@@ -30,7 +30,6 @@ import java.util.List;
 
 import br.eng.jerodac.movieguide.R;
 import br.eng.jerodac.movieguide.adapters.SortSpinnerAdapter;
-import br.eng.jerodac.movieguide.business.ApiError;
 import br.eng.jerodac.movieguide.business.AppLog;
 import br.eng.jerodac.movieguide.business.AppPreferences;
 import br.eng.jerodac.movieguide.business.MovieFavorites;
@@ -99,7 +98,7 @@ public class MoviePosterGridFragment extends BaseFragment
             if (mSortMethod == SortOption.POPULARITY) {
                 getController().requestMostPopularMovies(this);
             } else {
-                //todo
+                getController().requestHighestRatedMovies(this);
             }
         }
 
@@ -112,9 +111,6 @@ public class MoviePosterGridFragment extends BaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //View view = inflater.inflate(R.layout.movie_poster_grid, null);
-        //ButterKnife.bind(this, view);
 
         // restore movie list from instance state on orientation change
         if (savedInstanceState != null) {
@@ -229,8 +225,7 @@ public class MoviePosterGridFragment extends BaseFragment
                 getController().requestMostPopularMovies(this);
                 return;
             case SortOption.RATING:
-                //todo
-                //mApi.requestHighestRatedMovies(this);
+                getController().requestHighestRatedMovies(this);
                 return;
             case SortOption.FAVORITE:
                 queryFavorites();
@@ -254,7 +249,7 @@ public class MoviePosterGridFragment extends BaseFragment
             mAdapter.clearData();
             List<Integer> favoriteIds = MovieFavorites.getFavoriteMovies(getActivity());
             for (int favoriteId : favoriteIds) {
-                //mApi.requestMovie(favoriteId, this);
+                getController().requestMovie(favoriteId, this);
             }
         } else {
             Log.d(TAG, "Query favorites (offline mode)");
@@ -270,15 +265,14 @@ public class MoviePosterGridFragment extends BaseFragment
     }
 
     private void loadNextPage(int page) {
-        //Log.d(TAG, "Load page: " + page);
+        AppLog.v(AppLog.TAG, "Pagination: "+page);
 
         switch (mSortMethod) {
             case SortOption.POPULARITY:
                 getController().requestMostPopularMovies(page, this);
                 return;
             case SortOption.RATING:
-                //TODO
-                //getController().requestHighestRatedMovies(page, this);
+                getController().requestHighestRatedMovies(page, this);
                 return;
             default:
                 return;

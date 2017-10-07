@@ -40,15 +40,15 @@ public class MainActivity extends AppCompatActivity
     // remember the selected movie
     Movie mSelectedMovie;
 
-//    @Nullable
-//    @BindView(R.id.fab_favorite)
-//    protected FloatingActionButton mFavoriteFab;
+    @Nullable
+    @BindView(R.id.fab_favorite)
+    protected FloatingActionButton mFavoriteFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -136,19 +136,16 @@ public class MainActivity extends AppCompatActivity
                     transaction.addSharedElement(srcView, getResources().getString(R.string.transition_poster));
                 }
                 transaction.replace(R.id.fragment_detail, fragment, TAG_DETAIL_FRAGMENT).commit();
-                //mFavoriteFab.setImageResource(MovieFavorites.getImageResourceId(mIsFavorite));
+                mFavoriteFab.setImageResource(MovieFavorites.getImageResourceId(mIsFavorite));
             }
 
             String title = movie == null ? "" : movie.getTitle();
             TextView titleView = (TextView) findViewById(R.id.movie_detail_title);
             titleView.setText(title);
-            //mFavoriteFab.show();
+            mFavoriteFab.show();
 
         } else if (onClick) {
             onMovieClicked(movie, true, srcView);
-//            Intent intent = new Intent(this, MovieDetailActivity.class);
-//            intent.putExtra(MovieDetailActivity.KEY_MOVIE, movie);
-//            this.startActivity(intent);
         }
     }
 
@@ -160,16 +157,15 @@ public class MainActivity extends AppCompatActivity
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, srcView, getResources().getString(R.string.transition_poster));
         ActivityCompat.startActivity(this, intent, options.toBundle());
-        //this.startActivity(intent, options);
     }
 
-//    @Nullable @OnClick(R.id.fab_favorite) void onFavoriteClicked() {
-//        toggleFavorite();
-//    }
+    @Nullable @OnClick(R.id.fab_favorite) void onFavoriteClicked() {
+        toggleFavorite();
+    }
 
     private void toggleFavorite() {
         mIsFavorite = !mIsFavorite;
-        //mFavoriteFab.setImageResource(MovieFavorites.getImageResourceId(mIsFavorite));
+        mFavoriteFab.setImageResource(MovieFavorites.getImageResourceId(mIsFavorite));
         if (mSelectedMovie != null) {
             MovieFavorites.updateFavorite(this, mIsFavorite, mSelectedMovie);
         }
