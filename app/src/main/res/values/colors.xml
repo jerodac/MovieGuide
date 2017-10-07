@@ -2,8 +2,8 @@
 <resources>
 
     <!-- theme -->
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
+    <color name="primary">#5106B1</color>
+    <color name="primary_dark">#460690</color>
     <color name="primary_light">#C5CAE9</color>
     <color name="accent">#FF5722</color>
     <color name="primary_text">#212121</color>
