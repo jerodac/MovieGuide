@@ -43,45 +43,40 @@ public interface API {
     /**
      * Top 20 sorted by rating
      * @param apiKey
-     * @param cb
      */
     @GET("/movie/top_rated")
-    void fetchHighestRatedMovies(@Query("api_key") String apiKey, Callback<MovieListResponse> cb);
+    Observable<MovieListResponse> fetchHighestRatedMovies(@Query("api_key") String apiKey);
 
     /**
      * Next page of 20 sorted by rating
      * @param apiKey
      * @param page
-     * @param cb
      */
     @GET("/movie/top_rated")
-    void fetchHighestRatedMovies(@Query("api_key") String apiKey, @Query("page") int page, Callback<MovieListResponse> cb);
+    Observable<MovieListResponse> fetchHighestRatedMovies(@Query("api_key") String apiKey, @Query("page") int page);
 
     /**
      * Get movie details by id
      * @param movieId
      * @param apiKey
-     * @param cb
      */
     @GET("/movie/{id}")
-    void fetchMovie(@Path("id") int movieId, @Query("api_key") String apiKey, Callback<MovieResponse> cb);
+    Observable<MovieResponse> fetchMovie(@Path("id") int movieId, @Query("api_key") String apiKey);
 
 
     /**
      *  Traillers
      * @param movieId
      * @param apiKey
-     * @param cb
      */
     @GET("/movie/{id}/videos")
-    void fetchVideos(@Path("id") int movieId, @Query("api_key") String apiKey, Callback<VideoResponse> cb);
+    Observable<VideoResponse> fetchVideos(@Path("id") int movieId, @Query("api_key") String apiKey);
 
     /**
      * Reviews
      * @param movieId
      * @param apiKey
-     * @param cb
      */
     @GET("/movie/{id}/reviews")
-    void fetchReviews(@Path("id") int movieId, @Query("api_key") String apiKey, Callback<ReviewResponse> cb);
+    Observable<ReviewResponse> fetchReviews(@Path("id") int movieId, @Query("api_key") String apiKey);
 }

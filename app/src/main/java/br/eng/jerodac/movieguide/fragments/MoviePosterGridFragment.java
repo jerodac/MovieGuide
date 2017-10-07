@@ -57,7 +57,6 @@ public class MoviePosterGridFragment extends BaseFragment
 
     @BindView(R.id.recycler_container)
     protected RecyclerView mRecyclerView;
-
     private Spinner mSortSpinner;
 
     private MovieGridRecyclerAdapter mAdapter;
@@ -81,37 +80,32 @@ public class MoviePosterGridFragment extends BaseFragment
     }
 
     @Override
+    protected int getLayoutResource() {
+        return R.layout.movie_poster_grid;
+    }
+
+    @Override
     protected void initComponents(View rootView) {
         mAdapter = new MovieGridRecyclerAdapter();
         mScrollListener = new RecyclerScrollListener();
         
-        //mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.setData(movies);
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
-//        mRecyclerView.addOnScrollListener(mScrollListener);
-//
-//        // request movies
-//        if (mAdapter.getItemCount() == 0) {
-//            if (mSortMethod == SortOption.POPULARITY) {
-//                getController().requestMostPopularMovies(this);
-//            } else {
-//                //todo
-//            }
-//        }
-//
-//        // check for network connection
-//        checkNetwork();
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setData(movies);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
+        mRecyclerView.addOnScrollListener(mScrollListener);
 
-    }
+        // request movies
+        if (mAdapter.getItemCount() == 0) {
+            if (mSortMethod == SortOption.POPULARITY) {
+                getController().requestMostPopularMovies(this);
+            } else {
+                //todo
+            }
+        }
 
-    @Override
-    protected void settings(View rootView) {
+        // check for network connection
+        checkNetwork();
 
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.movie_poster_grid;
     }
 
     ArrayList<Movie> movies = new ArrayList<>();
@@ -506,6 +500,11 @@ public class MoviePosterGridFragment extends BaseFragment
 
             mAdapter.setData(favorites);
         }
+
+    }
+
+    @Override
+    protected void settings(View rootView) {
 
     }
 }
