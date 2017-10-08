@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +54,10 @@ public class MoviePosterGridFragment extends BaseFragment
 
     @BindView(R.id.recycler_container)
     protected RecyclerView mRecyclerView;
+
+    @BindView(R.id.loading)
+    protected View mLoading;
+
     private Spinner mSortSpinner;
 
     private MovieGridRecyclerAdapter mAdapter;
@@ -74,7 +76,6 @@ public class MoviePosterGridFragment extends BaseFragment
 
     // interface to communicate movie selection events to MainActivity
     public interface OnMovieSelectedListener {
-        //public void onMovieSelected(Movie selection, boolean onClick);
         public void onMovieSelected(Movie selection, boolean onClick, View view);
     }
 
@@ -198,11 +199,13 @@ public class MoviePosterGridFragment extends BaseFragment
             // append results for subsequent pages
             mAdapter.appendData(response.getMovies());
         }
+        mLoading.setVisibility(View.GONE);
     }
 
     @Override
     public void success(MovieResponse response) {
         mAdapter.appendData(response.getMovie());
+        mLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -231,7 +234,7 @@ public class MoviePosterGridFragment extends BaseFragment
                 queryFavorites();
                 return;
             default:
-                Toast.makeText(getActivity(), "Sort type not supported", Toast.LENGTH_SHORT).show();
+                snackBarUtil.showMessageSuccess("Sort type not supported");
                 return;
         }
     }
@@ -245,14 +248,14 @@ public class MoviePosterGridFragment extends BaseFragment
         mListener.onMovieSelected(null, false, null);
 
         if (isNetworkAvailable()) {
-            Log.d(TAG, "Query favorites (online mode)");
+            AppLog.v(AppLog.TAG, "Query favorites (online mode)");
             mAdapter.clearData();
             List<Integer> favoriteIds = MovieFavorites.getFavoriteMovies(getActivity());
             for (int favoriteId : favoriteIds) {
                 getController().requestMovie(favoriteId, this);
             }
         } else {
-            Log.d(TAG, "Query favorites (offline mode)");
+            AppLog.v(AppLog.TAG, "Query favorites (offline mode)");
             mAdapter.clearData();
             FavoritesQueryHandler handler = new FavoritesQueryHandler(getActivity().getContentResolver());
             handler.startQuery(1, null, MovieContract.MovieEntry.CONTENT_URI,
@@ -282,7 +285,7 @@ public class MoviePosterGridFragment extends BaseFragment
 
     private boolean checkNetwork() {
         if (!isNetworkAvailable()) {
-            Toast.makeText(getActivity(), "Network unavailable (check your connection)", Toast.LENGTH_LONG).show();
+            snackBarUtil.showMessageSuccess("Network unavailable (check your connection)");
             return true;
         }
         return false;
@@ -352,7 +355,6 @@ public class MoviePosterGridFragment extends BaseFragment
                     AppLog.v(AppLog.TAG, "Found poster view: " + posterView);
                 }
                 mListener.onMovieSelected(data.get(0), false, posterView);
-                //mRecyclerView.setSelected();
             }
         }
 
@@ -377,7 +379,6 @@ public class MoviePosterGridFragment extends BaseFragment
             Movie movie = data.get(position);
             holder.movieTitle.setText(movie.getTitle());
             int screenWidth = getResources().getDisplayMetrics().widthPixels;
-            //Picasso.with(getActivity().getApplicationContext()).setIndicatorsEnabled(true);
             Picasso.with(holder.moviePoster.getContext())
                     .load(movie.getPosterUrl(screenWidth))
                     .placeholder(R.drawable.ic_local_movies_white_36dp)

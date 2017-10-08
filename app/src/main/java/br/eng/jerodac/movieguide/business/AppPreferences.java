@@ -12,8 +12,6 @@ import br.eng.jerodac.movieguide.components.SortOption;
  */
 public class AppPreferences {
 
-    //private static final String LOG_TAG = AppPreferences.class.getSimpleName();
-
     public static int getCurrentSortMethod(Context context) {
         String key = context.getString(R.string.key_sort_method_current);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

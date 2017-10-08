@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-
 import java.util.List;
 
 import br.eng.jerodac.movieguide.R;
@@ -29,8 +28,6 @@ public class SortSpinnerAdapter extends ArrayAdapter<SortOption> implements Spin
     public SortSpinnerAdapter(MoviePosterGridFragment moviePosterGridFragment, Context context, List<SortOption> options) {
         super(context, android.R.layout.simple_spinner_item, options);
         this.moviePosterGridFragment = moviePosterGridFragment;
-        //super(context, android.R.layout.simple_spinner_dropdown_item);
-        //addAll(SortOption.getSortOptions());
     }
 
     // Displays icon-only for toolbar Spinner

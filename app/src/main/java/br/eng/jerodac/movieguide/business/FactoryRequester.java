@@ -31,6 +31,6 @@ public abstract class FactoryRequester<T extends RestResponse> extends Disposabl
 
     @Override
     public void onComplete() {
-        Log.i("FactoryAsyncTask2", "onComplete");
+        Log.i("FactoryRequester", "onComplete");
     }
 }
