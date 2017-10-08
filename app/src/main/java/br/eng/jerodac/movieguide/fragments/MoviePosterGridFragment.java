@@ -231,6 +231,7 @@ public class MoviePosterGridFragment extends BaseFragment
                 getController().requestHighestRatedMovies(this);
                 return;
             case SortOption.FAVORITE:
+                mLoading.setVisibility(View.VISIBLE);
                 queryFavorites();
                 return;
             default:
