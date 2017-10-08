@@ -41,3 +41,6 @@ Jean Rodrigo Dalbon Cunha<br>
 E-mail: jerodac@gmail.com<br>
 Skype: jerodac@hotmail.com.br <br>
 
+##   
+<img src="https://i.imgur.com/8aK6O4J.jpg">
+
